@@ -166,6 +166,5 @@ void generateOutput() {
 		for (auto children : childrensOf[connection->vertex]) {
 			result[children]->begin = connection->end;
 		}
-	}
-	
+	}	
 }
