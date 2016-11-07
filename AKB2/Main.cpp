@@ -21,14 +21,12 @@ int main() {
 	string fileName;
 	cin >> fileName;
 	cout << endl;
-
 	try	{
 		loadFile(fileName);
 	}
 	catch (const std::exception& )	{
 		//cout << e.what << endl;
 	}
-	
 	if (checkIfAdjont()) {
 		cout << "graf jest sprzezony" << endl;
 		if (checkIfLinear()) {
@@ -39,7 +37,6 @@ int main() {
 		}
 		cout << "trwa generowanie grafu oryginalnego" << endl;
 		generateOutput();
-
 		saveFile();
 		cout << "plik wyjsciowy to output.txt" << endl;
 	}
