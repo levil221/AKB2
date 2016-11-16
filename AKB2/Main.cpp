@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <map>
 #include "Connection.h"
 using namespace std;
 
@@ -93,14 +94,19 @@ void loadFile(string fileName) {
 	file.close();
 }
 void saveFile() {
+	map<int, int> newCounter;
 	fstream file;
 	file.open("output.txt", ios::out);
-	file << vertexCount-1 << "\n";
-
+	for (auto connection : result) {
+		newCounter[connection->begin] = 0;
+		newCounter[connection->end] = 0;
+	}
+	file << newCounter.size()-1 << "\n";
 	for (auto connection : result) {
 		if (connection->vertex == 0)
 			continue;
 		file << connection->begin << " " << connection->end << "\n";
+		cout << connection->begin << " " << connection->vertex << " " << connection->end << endl;
 	}
 	file.close();
 }
@@ -134,12 +140,19 @@ bool checkIfAdjont() {
 	return true;
 }
 bool checkIfLinear() {
+	
 	for (auto children : childrensOf) {
-		if (children.size() < 1)
+		bool found = false;
+		if (children.size() <= 1)
 			continue;
-		for (int i = 0; i < tabSize; i++) {
-			if (input[children[0]][i] == input[children[1]][i])
-				return false;
+		for (int j = 0; j < children.size()-1;j++) {
+			for(auto c1:childrensOf[children[j]]){
+				for (auto c2 : childrensOf[children[j+1]]) {
+					if (c1 == c2) {
+						return false;
+					}
+				}
+			}
 		}
 	}
 	return true;
